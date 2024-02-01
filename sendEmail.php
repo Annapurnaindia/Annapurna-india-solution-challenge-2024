@@ -1,27 +1,32 @@
 <?php
-$name = $_post['name'];
-$visitor_email = $post['email'];
-$subject= $_psot['subject'];
-$message = $_post['message'];
-$email_from='info@mywebsite address';
-$email_subject ='new form submssion';
-$email_body="user Name: $name.\n".
-            "user Email: $visitor_email.\n".
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get form data
+    $name = $_POST["name"];
+    $email = $_POST["email"];
+    $subject = $_POST["SUBJECT"];
+    $message = $_POST["message"];
 
-            "subject: $subject.\n".
+    // Set email recipient
+    $to = "annapurnaindiaofficial@gmail.com";
 
-            "user message: $message .\n.";
- $to='annapurnaindia@gmail.com';
- $headers ="from: $email-from \r\n";
- $headers .="reply-to: $visitor_email \r\n";
- mail($to,$email_subject,$email_body,$headers) ;
- header("location: contact.html");     
-            
+    // Compose email message
+    $email_message = "Name: $name\n";
+    $email_message .= "Email: $email\n";
+    $email_message .= "Subject: $subject\n";
+    $email_message .= "Message:\n$message\n";
 
+    // Set email headers
+    $headers = "From: annapurnaindiaofficial@gmail.com\n";
+    $headers .= "Reply-To: annapurnaindiaofficial@gmail.com\n";
 
-
-
-
-
-
+    // Send email
+    if (mail($to, $subject, $email_message, $headers)) {
+        echo "Email sent successfully!";
+    } else {
+        echo "Failed to send email. Please try again later.";
+    }
+} else {
+    // Redirect to error page if accessed directly
+    header("Location: error.html");
+}
 ?>
